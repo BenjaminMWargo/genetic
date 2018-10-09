@@ -152,7 +152,7 @@ public class genetic{
     }
     public static void main(String args[]){
         if (args.length < 4){
-            System.out.print("Need input param,s \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
+            System.out.print("Need input params: \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
             System.exit(0);
         }
         int size = Integer.parseInt(args[0]);
