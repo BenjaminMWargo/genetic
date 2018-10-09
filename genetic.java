@@ -151,8 +151,14 @@ public class genetic{
         return s;
     }
     public static void main(String args[]){
-     
-        int size = 10;
+        if (args.length < 4){
+            System.out.print("Need input param,s \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
+            System.exit(0);
+        }
+        int size = Integer.parseInt(args[0]);
+        int max = Integer.parseInt(args[1]);
+        double crossRate = Double.parseDouble(args[2]);
+        double mutRate = Double.parseDouble(args[3]);
         schedual population = makeSchedual();
         printSchedual(population);
        // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
