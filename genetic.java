@@ -77,8 +77,19 @@ public class genetic{
             return x;
         }
     }
-    
+    public static void printSchedual(schedual s){
+        System.out.println("CRN|Course|Proffessor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
+        for (course c :s.courseList){
+            System.out.println(c.CRN + " | " +c.courseName + " | " +c.prof + " | " + c.courseSize + " | " +c.room.roomName + " | " + c.room.roomSize + " | " +c.room.roomMedia + " | " +c.timeFrame.period + " | " +c.timeFrame.days + " | " +c.timeFrame.time);
+        }
+        System.out.println("Fitness:" + s.fitness);
+    }
     public static void main(String args[]){
-        System.out.println("hi");
+        
+        schedual test = new schedual();
+        test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
+        test.courseList.get(0).timeFrame = new timeFrame("MFW", 9, 0);
+        test.courseList.get(0).room = new room("Room 3", 30, false);
+        printSchedual(test);
     }
 }
