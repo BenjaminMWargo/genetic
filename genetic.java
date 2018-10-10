@@ -108,22 +108,38 @@ public class genetic{
                         continue;
                     }
                    //==== teacher is teaching twice =====
-
-
+                    //Teacher,Day,and Time are the same
+                    if ((i.prof == j.prof) & (i.timeFrame.days == j.timeFrame.days) & (i.timeFrame.time==j.timeFrame.time)){
+                        profBusy = true;
+                    }
                    //====Room is in use ======
+                   //==roomName,time and day are the same
+                   if ((i.room.roomName == j.room.roomName) & (i.timeFrame.days == j.timeFrame.days) & (i.timeFrame.time==j.timeFrame.time)){
+                        roomTaken = true;
+                   }
                 }
-
                 //===Room too small==== 
-
-                //==Room is right size===
-
+                if (i.courseSize < i.room.roomSize){
+                    tooSmall = true;
+                }
                 //===Class needs media, room doesn't have it ===
-
-                //===Class needs media, room has it ===
-
-
+                if ((i.courseMedia = true)&(i.room.roomMedia == false)){
+                    mediaReq = true;
+                }
                 //Calculate fitness
-
+                if (profBusy){
+                    this.fitness = this.fitness - 300;
+                }
+                if (roomTaken){
+                    this.fitness = this.fitness - 300;
+                }
+                if (tooSmall){
+                    this.fitness = this.fitness - 70;
+                }else {this.fitness = this.fitness +20;}
+                if (mediaReq){
+                    this.fitness = this.fitness - 50;
+                }else {this.fitness = this.fitness +20;}
+            }
        }
     }
     public static void printSchedual(schedual s){
@@ -192,6 +208,7 @@ public class genetic{
             c.room = roomList.get(0).deepCopy();
             c.timeFrame = periodList.get(0).deepCopy();
         }
+        s.findFitness();
         return s;
     }
     public static void main(String args[]){
