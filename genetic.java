@@ -82,28 +82,48 @@ public class genetic{
             return x;
        }
        public void findFitness(){
-            /*for(course :: courseList){
-                for(j : courseList){
-                    // if(teacher == false){
-                        fitness = fitness - 300;
+           //For each class in the list, compare it to all the other classes in the list.
+           //Rules
+           //-300 if room has two classes at once
+           //-300 if prof is teaching two classes at the same time
+           //
+           //-50 if class needs media and the room doesn't have it
+           //-70 if room is too small
+           //+20 if class needs media and the room has media
+           //+20 if room is big enough
+           boolean roomTaken = false;
+           boolean profBusy = false;
+           boolean tooSmall = false;
+           boolean mediaReq = false;
+            //For each course in the list
+            for(course i : courseList){
+                //Reset  rule flags
+                roomTaken = false;
+                profBusy = false;
+                tooSmall = false;
+                mediaReq = false;
+                for(course j : courseList){
+                    //Skip over itself
+                    if (i.CRN == j.CRN){
+                        continue;
                     }
-                    // if(room == false){
-                        fitness = fitness - 300;
-                    }
+                   //==== teacher is teaching twice =====
+
+
+                   //====Room is in use ======
                 }
-                // if(media == true){
-                    fitness = fitness + 20;
-                }
-                else{
-                    fitness = fitness - 50;
-                }
-                // if(size == true){
-                    fitness = fitness + 20;
-                }
-                else {
-                    fitness = fitness - 70;
-                }
-            }*/
+
+                //===Room too small==== 
+
+                //==Room is right size===
+
+                //===Class needs media, room doesn't have it ===
+
+                //===Class needs media, room has it ===
+
+
+                //Calculate fitness
+
        }
     }
     public static void printSchedual(schedual s){
@@ -184,9 +204,10 @@ public class genetic{
         double crossRate = Double.parseDouble(args[2]);
         double mutRate = Double.parseDouble(args[3]);
 
-        
-        schedual population = makeSchedual();
-        printSchedual(population);
+        // population should be a list of scheduals
+        List<schedual> population = new ArrayList<schedual>();
+        population.add(makeSchedual()); 
+        printSchedual(population.get(0));
        // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
       //  test.courseList.get(0).timeFrame = new timeFrame("MFW", 9, 0);
      //   test.courseList.get(0).room = new room("Room 3", 30, false);
