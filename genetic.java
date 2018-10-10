@@ -85,7 +85,7 @@ public class genetic{
     public static void printSchedual(schedual s){
         System.out.println("CRN|Course|Proffessor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
         for (course c :s.courseList){
-            System.out.println(c.CRN + " | " +c.courseName + " | " +c.prof + " | " + c.courseSize + " | " + c.courseMedia + "     | " +c.room.roomName + " | " + c.room.roomSize + " | " +c.room.roomMedia + "     | " +c.timeFrame.period + " | " +c.timeFrame.days + " | " +c.timeFrame.time);
+            System.out.printf(c.CRN + " | " +c.courseName + " | " +c.prof + " | " + c.courseSize + " | " + c.courseMedia + "     | " +c.room.roomName + " | " + c.room.roomSize + " | " +c.room.roomMedia + "     | " +c.timeFrame.period + " | " +c.timeFrame.days + " | " +c.timeFrame.time + "\n");
         }
         System.out.println("Fitness:" + s.fitness);
     }
@@ -159,6 +159,8 @@ public class genetic{
         int max = Integer.parseInt(args[1]);
         double crossRate = Double.parseDouble(args[2]);
         double mutRate = Double.parseDouble(args[3]);
+
+        
         schedual population = makeSchedual();
         printSchedual(population);
        // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
