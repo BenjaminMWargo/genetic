@@ -80,7 +80,31 @@ public class genetic{
                 x.courseList.add(c.deepCopy());
             }
             return x;
-        }
+       }
+       public void findFitness(){
+            /*for(course :: courseList){
+                for(j : courseList){
+                    // if(teacher == false){
+                        fitness = fitness - 300;
+                    }
+                    // if(room == false){
+                        fitness = fitness - 300;
+                    }
+                }
+                // if(media == true){
+                    fitness = fitness + 20;
+                }
+                else{
+                    fitness = fitness - 50;
+                }
+                // if(size == true){
+                    fitness = fitness + 20;
+                }
+                else {
+                    fitness = fitness - 70;
+                }
+            }*/
+       }
     }
     public static void printSchedual(schedual s){
         System.out.println("CRN|Course|Proffessor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
