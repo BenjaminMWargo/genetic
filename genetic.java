@@ -223,8 +223,14 @@ public class genetic{
 
         // population should be a list of scheduals
         List<schedual> population = new ArrayList<schedual>();
-        population.add(makeSchedual()); 
-        printSchedual(population.get(0));
+
+        for (int i =0;i<size;i++){
+            //Added size scheduals to the population
+            population.add(makeSchedual()); 
+        }
+        for (schedual s:population){
+            printSchedual(s);
+        }
        // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
       //  test.courseList.get(0).timeFrame = new timeFrame("MFW", 9, 0);
      //   test.courseList.get(0).room = new room("Room 3", 30, false);
