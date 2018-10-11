@@ -269,7 +269,8 @@ public class genetic{
         //Select from the top 50% randomly
         List<schedule> nextGen = new ArrayList<schedule>();
         int max = s.size();
-        int range = s.size()/2;
+        
+        int range = (int)(s.size()*.3);
         Random rand = new Random();
         //Sort by highest fitness
         Collections.sort(s);
@@ -437,15 +438,15 @@ public class genetic{
         for (int i=0;i<max;i++){
             //Selections - 
             nextGen = elitistSelection(population);
-            getStatistics(nextGen);
+           // getStatistics(nextGen);
             //Crossover
             nextGen = crossover(nextGen,crossRate);
-            getStatistics(nextGen);
+           // getStatistics(nextGen);
             //Mutation
             nextGen = mutation(nextGen, mutRate);
-            getStatistics(nextGen);
+           
             //Evaluate
-            
+            System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(population);
             if (generationBest.fitness>globalBest.fitness){
                globalBest = generationBest;
