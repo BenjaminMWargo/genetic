@@ -267,20 +267,113 @@ public class genetic{
         return best;
     }
     public static List<schedule> elitistSelection(List<schedule> s){
+        //Select from the top 50% randomly
         List<schedule> nextGen = new ArrayList<schedule>();
         int max = s.size();
         int range = s.size()/2;
         Random rand = new Random();
         //Sort by highest fitness
         Collections.sort(s);
+        //Pick randomly from the top 50%
         for (int i =0;i<max;i++){
             nextGen.add(s.get(rand.nextInt(range)+1).deepCopy());
         }
-        //Pick randomly from the top 50%
         
+        updateFitness(nextGen);
+        return nextGen;
+    }
+    public static void updateFitness(List<schedule> s){
+        //Updates fitness for entire population
+        for(schedule i:s){
+            i.findFitness();
+        }
+    }
+    public static List<schedule> crossover(List<schedule> s,double rate){
+        List<schedule> nextGen = new ArrayList<schedule>();
+        Random rand = new Random();
+        room tempRoom;
+        timeFrame tempTime;
+        List<course> tempCourse = new ArrayList<course>();
+        List<course> tempCourse2 = new ArrayList<course>();
+        schedule a,b,a2,b2;
+        int x;
+        while (s.size()>0) {
+            if (s.size() == 1){
+                //edge case of odd population
+                nextGen.add(s.remove(0));
+                break;
+            }    
+            a = s.remove(0);
+            b = s.remove(0);
+            a2 = a.deepCopy();
+            b2 = b.deepCopy();
+            //Roll for crossover
+            if (rand.nextInt(100)<(rate*100)){
+                System.out.println("Crossover");
+                printSchedule(a);
+                printSchedule(b);
+                x = rand.nextInt(27);
+                System.out.println("X:" + x);
+                for (course i:a.courseList){
+                    //Take the top half of the course list up to x
+                    if (i.CRN <= x){
+                        //if CRN is in range, search for it and put it in list1
+                        for (int j = 0;j<27;j++){
+                            if (a.courseList.get(j).CRN == i.CRN){
+                                tempCourse.add(a.courseList.get(j).deepCopy());
+                                break;
+                            }
+                        }
+                    }
+                    if (i.CRN > x){
+                        //Put the rest in list2
+                        for (int j = 0;j<27;j++){
+                            if (a.courseList.get(j).CRN == i.CRN){
+                                tempCourse2.add(a.courseList.get(j).deepCopy());
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (course i:b.courseList){
+                    //Take the top half of the course list up to x
+                    if (i.CRN <= x){
+                        //if CRN is in range, search for it and put it in list1
+                        for (int j = 0;j<27;j++){
+                            if (a.courseList.get(j).CRN == i.CRN){
+                                tempCourse.add(b.courseList.get(j).deepCopy());
+                                break;
+                            }
+                        }
+                    }
+                    if (i.CRN > x){
+                        //if CRN is in range, search for it and remove it
+                        for (int j = 0;j<27;j++){
+                            if (a.courseList.get(j).CRN == i.CRN){
+                                tempCourse.add(b.courseList.get(j).deepCopy());
+                                break;
+                            }
+                        }
+                    }
+                }
+                a.courseList.clear();
+                b.courseList.clear();
+                a.courseList = tempCourse;
+                b.courseList = tempCourse2;
+                System.out.println("After Crossover");
+                printSchedule(a);
+                printSchedule(b);
+            }
+            nextGen.add(a);
+            nextGen.add(b);
+            
+
+        }
+        updateFitness(nextGen);
         return nextGen;
     }
     public static void main(String args[]){
+        
         if (args.length < 4){
             System.out.print("Need input params: \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
             System.exit(0);
@@ -308,8 +401,10 @@ public class genetic{
         for (int i=0;i<max;i++){
             //Selections - 
             nextGen = elitistSelection(population);
+            getStatistics(nextGen);
             //Crossover
-
+            nextGen = crossover(nextGen,crossRate);
+            getStatistics(nextGen);
             //Mutation
 
             //Evaluate
