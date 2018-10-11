@@ -270,7 +270,7 @@ public class genetic{
         List<schedule> nextGen = new ArrayList<schedule>();
         int max = s.size();
         
-        int range = (int)(s.size()*.3);
+        int range = (int)(s.size()*.5);
         Random rand = new Random();
         //Sort by highest fitness
         Collections.sort(s);
@@ -454,6 +454,7 @@ public class genetic{
             nextGen = mutation(nextGen, mutRate);
            
             //Evaluate
+            Collections.sort(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
            if (i%100==0){
