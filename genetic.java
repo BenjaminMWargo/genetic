@@ -306,8 +306,7 @@ public class genetic{
             tempCourse3.clear(); 
             a = s.remove(0);
             b = s.remove(0);
-            a2 = a.deepCopy();
-            b2 = b.deepCopy();
+            
             //Roll for crossover
             if (rand.nextInt(100)<(rate*100)){            
                 x = rand.nextInt(27);
@@ -376,6 +375,39 @@ public class genetic{
         updateFitness(nextGen);
         return nextGen;
     }
+    public static List<schedule> mutation(List<schedule> s,double rate){
+        List<schedule> nextGen = new ArrayList<schedule>();
+        Random rand = new Random();
+        List<timeFrame> timeList = new ArrayList<timeFrame>();
+        List<room> roomList = new ArrayList<room>();
+        int x;
+        for(schedule i:s){
+            for(course c:i.courseList){
+                 //For each class Roll for mutation
+                 if (rand.nextInt(100)<(rate*100)){
+                    //Find type of mutation
+                    x = rand.nextInt(((3-1)+1)-1);
+                    if ((x==1)||(x==3)){
+                        //Mutate room
+                        roomList = getRoomList();
+                        Collections.shuffle(roomList);
+                        c.room = roomList.get(0);
+
+                    }
+                    if ((x==2)||(x==3)){
+                        //Mutate time
+                        timeList = getTimeList();
+                        Collections.shuffle(timeList);
+                        c.timeFrame = timeList.get(0);
+
+                    }
+
+                 }
+            }
+           
+        }
+        return nextGen;
+    }
     public static void main(String args[]){
         
         if (args.length < 4){
@@ -410,7 +442,8 @@ public class genetic{
             nextGen = crossover(nextGen,crossRate);
             getStatistics(nextGen);
             //Mutation
-
+            nextGen = mutation(nextGen, mutRate);
+            getStatistics(nextGen);
             //Evaluate
             
            generationBest = getStatistics(population);
