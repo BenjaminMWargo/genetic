@@ -77,7 +77,7 @@ public class genetic{
         public schedule deepCopy(){
             schedule x = new schedule();
             x.fitness = this.fitness;
-            for (course c: courseList ) {
+            for (course c: this.courseList ) {
                 x.courseList.add(c.deepCopy());
             }
             return x;
@@ -368,6 +368,9 @@ public class genetic{
                 b.courseList = tempCourse2;
                 nextGen.add(a);
                 nextGen.add(b);
+            }else{
+                nextGen.add(a);
+                nextGen.add(b);
             }
             
             
@@ -407,7 +410,7 @@ public class genetic{
             }
            
         }
-        return nextGen;
+        return s;
     }
     public static void main(String args[]){
         
@@ -431,13 +434,18 @@ public class genetic{
             //Added size schedules to the population
             population.add(makeSchedule()); 
         }
+        System.out.println("===============================Generation 0 ===============================");
         globalBest = getStatistics(population).deepCopy();
        // printPopulation(population);
        //Loop max times
+        for (schedule s:population){
+            nextGen.add(s.deepCopy());
+        }
+
        
-        for (int i=0;i<max;i++){
+        for (int i=1;i<=max;i++){
             //Selections - 
-            nextGen = elitistSelection(population);
+            nextGen = elitistSelection(nextGen);
            // getStatistics(nextGen);
             //Crossover
             nextGen = crossover(nextGen,crossRate);
@@ -447,15 +455,15 @@ public class genetic{
            
             //Evaluate
             System.out.println("===============================Generation " + i + "===============================");
-           generationBest = getStatistics(population);
+           generationBest = getStatistics(nextGen);
            if (i%100==0){
-               printPopulation(population);
+               printPopulation(nextGen);
            }
             if (generationBest.fitness>globalBest.fitness){
                globalBest = generationBest.deepCopy();
             }
-            population.clear();
-            population = nextGen;
+           // population.clear();
+           
         }
         System.out.println("=============================================Best Schedule=======================================================");
         printSchedule(globalBest);
