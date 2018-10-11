@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Random;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -64,7 +65,7 @@ public class genetic{
             }else{ x.room = null;}
             return x;
         }
-    }public static class schedule{
+    }public static class schedule implements Comparable<schedule>{
         //Each schedule is a list of courses
         public List<course> courseList;
         public int fitness;
@@ -140,7 +141,18 @@ public class genetic{
                     this.fitness = this.fitness - 50;
                 }else {this.fitness = this.fitness +20;}
             }
+            
        }
+       public int compareTo(schedule s){
+        if(this.fitness < s.fitness){
+            return 1;
+        }else if (this.fitness > s.fitness){
+            return -1;
+        }else{
+            return 0;
+        }
+
+    }
     }
     public static void printSchedule(schedule s){
         System.out.printf("%3s | %-8s | %-12s | %-4s | %-11s | %-10s | %-9s | %-11s | %-6s | %-4s | %4s%n", "CRN", "Course", "Professor", "Size", "Needs media", "Room Name", "Room Size", "Room media?", "Period", "Days", "Time");
@@ -162,13 +174,7 @@ public class genetic{
          }
         bufferedReader.close();
        } catch(Exception e){System.out.print("read error");}
-       //for(String[] i:data){
-       //    for(String j:i){
-       //         System.out.print(j + " ");
-      //     }
-      //     System.out.println("");
-      // }
-       
+         
        return data;
     }
     public static schedule makeSchedule(){
@@ -244,6 +250,20 @@ public class genetic{
         System.out.println("Population Average:" + average + "  Min:" + min + " Max:" + max);
         return best;
     }
+    public static List<schedule> elitistSelection(List<schedule> s){
+        List<schedule> nextGen = new ArrayList<schedule>();
+        int max = s.size();
+        int range = s.size()/2;
+        Random rand = new Random();
+        //Sort by highest fitness
+        Collections.sort(s);
+        for (int i =0;i<max;i++){
+            nextGen.add(s.get(rand.nextInt(range)+1).deepCopy());
+        }
+        //Pick randomly from the top 50%
+        
+        return nextGen;
+    }
     public static void main(String args[]){
         if (args.length < 4){
             System.out.print("Need input params: \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
@@ -259,30 +279,32 @@ public class genetic{
         schedule generationBest;
         // population should be a list of schedules
         List<schedule> population = new ArrayList<schedule>();
+        List<schedule> nextGen = new ArrayList<schedule>();
 
         for (int i =0;i<size;i++){
             //Added size schedules to the population
             population.add(makeSchedule()); 
         }
         globalBest = getStatistics(population);
-        printPopulation(population);
+       // printPopulation(population);
        //Loop max times
+       
         for (int i=0;i<max;i++){
-            //Selections
-
+            //Selections - 
+            nextGen = elitistSelection(population);
             //Crossover
 
             //Mutation
 
             //Evaluate
             
-            generationBest = getStatistics(population);
-            if (generationBest.fitness>globalBest.fitness){
-                globalBest = generationBest;
-            }
+           // generationBest = getStatistics(population);
+           // if (generationBest.fitness>globalBest.fitness){
+           //     globalBest = generationBest;
+           // }
 
         }
-        printSchedule(globalBest);
+       // printSchedule(globalBest);
         
       
     }
