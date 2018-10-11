@@ -211,6 +211,15 @@ public class genetic{
         s.findFitness();
         return s;
     }
+    public static void printPopulation(List<schedual> s){
+        //Prints the entire population
+        int x = 1;
+        for (schedual i:s){
+            System.out.println("Schedual:" + x);
+            printSchedual(i);
+            x++;
+        }
+    }
     public static void main(String args[]){
         if (args.length < 4){
             System.out.print("Need input params: \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
@@ -228,9 +237,8 @@ public class genetic{
             //Added size scheduals to the population
             population.add(makeSchedual()); 
         }
-        for (schedual s:population){
-            printSchedual(s);
-        }
+        printPopulation(population);
+        
        // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
       //  test.courseList.get(0).timeFrame = new timeFrame("MFW", 9, 0);
      //   test.courseList.get(0).room = new room("Room 3", 30, false);
