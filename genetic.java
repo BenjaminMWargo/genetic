@@ -143,9 +143,9 @@ public class genetic{
        }
     }
     public static void printSchedual(schedual s){
-        System.out.println("CRN|Course|Proffessor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
+        System.out.println("CRN|Course|Professor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
         for (course c :s.courseList){
-            System.out.printf(c.CRN + " | " +c.courseName + " | " +c.prof + " | " + c.courseSize + " | " + c.courseMedia + "     | " +c.room.roomName + " | " + c.room.roomSize + " | " +c.room.roomMedia + "     | " +c.timeFrame.period + " | " +c.timeFrame.days + " | " +c.timeFrame.time + "\n");
+            System.out.printf("%2d | %-8s | %-12s | %-2d | %-5b | %-10s | %-3d | %-5b | %-2d | %-3s | %3d%n", c.CRN, c.courseName, c.prof, c.courseSize, c.courseMedia, c.room.roomName, c.room.roomSize, c.room.roomMedia, c.timeFrame.period, c.timeFrame.days, c.timeFrame.time);
         }
         System.out.println("Fitness:" + s.fitness);
     }
