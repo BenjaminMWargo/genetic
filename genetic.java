@@ -220,16 +220,43 @@ public class genetic{
             x++;
         }
     }
+    public static schedule getStatistics(List<schedule> s){
+        //Prints statistics for the population. Returns the best schedule of the pop
+        double total = 0;
+        double average;
+        int count = 0;
+        double max = -100000000;
+        double min = 1000;
+        schedule best = null;
+        for (schedule i:s){
+            count++;
+            total = total + i.fitness;
+            System.out.println("Chromasome:" + count + "  Fitness:" + i.fitness);
+            if (i.fitness > max){
+                max = i.fitness;
+                best = i.deepCopy();
+            }
+            if (i.fitness < min){
+                min = i.fitness;
+            }
+        }
+        average = total/count;
+        System.out.println("Population Average:" + average + "  Min:" + min + " Max:" + max);
+        return best;
+    }
     public static void main(String args[]){
         if (args.length < 4){
             System.out.print("Need input params: \"java genetic *size of population* *Max generations* *CrossoverRate* *Mutation Rate*\" " );
             System.exit(0);
         }
+        //Input Params
         int size = Integer.parseInt(args[0]);
         int max = Integer.parseInt(args[1]);
         double crossRate = Double.parseDouble(args[2]);
         double mutRate = Double.parseDouble(args[3]);
-
+        //Other Var
+        schedule globalBest;
+        schedule generationBest;
         // population should be a list of schedules
         List<schedule> population = new ArrayList<schedule>();
 
@@ -237,7 +264,25 @@ public class genetic{
             //Added size schedules to the population
             population.add(makeSchedule()); 
         }
+        globalBest = getStatistics(population);
         printPopulation(population);
+       //Loop max times
+        for (int i=0;i<max;i++){
+            //Selections
+
+            //Crossover
+
+            //Mutation
+
+            //Evaluate
+            
+            generationBest = getStatistics(population);
+            if (generationBest.fitness>globalBest.fitness){
+                globalBest = generationBest;
+            }
+
+        }
+        printSchedule(globalBest);
         
       
     }
