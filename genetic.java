@@ -275,7 +275,7 @@ public class genetic{
         //Sort by highest fitness
         Collections.sort(s);
         //Pick randomly from the top 50%
-        for (int i =0;i<max;i++){
+        for (int i=0;i<max;i++){
             nextGen.add(s.get(rand.nextInt(range)+1).deepCopy());
         }
         
@@ -448,6 +448,9 @@ public class genetic{
             //Evaluate
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(population);
+           if (i%100==0){
+               printPopulation(population);
+           }
             if (generationBest.fitness>globalBest.fitness){
                globalBest = generationBest;
             }
