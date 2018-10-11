@@ -195,7 +195,6 @@ public class genetic{
         String PERIODFILE = "periods.txt";
         List<String[]> periodMaster = readFile(PERIODFILE);
         List<timeFrame> periodList = new ArrayList<timeFrame>();
-        boolean x;
         for(String[] i :periodMaster){
             //Load all rooms into roomlist
             periodList.add(new timeFrame(i[1],Integer.parseInt(i[2]),Integer.parseInt(i[0])));
@@ -291,12 +290,10 @@ public class genetic{
     public static List<schedule> crossover(List<schedule> s,double rate){
         List<schedule> nextGen = new ArrayList<schedule>();
         Random rand = new Random();
-        room tempRoom;
-        timeFrame tempTime;
         List<course> tempCourse = new ArrayList<course>();
         List<course> tempCourse2 = new ArrayList<course>();
         List<course> tempCourse3 = new ArrayList<course>();
-        schedule a,b,a2,b2;
+        schedule a,b;
         int x;
         while (s.size()>0) {
             if (s.size() == 1){
@@ -416,13 +413,14 @@ public class genetic{
 
             //Evaluate
             
-           // generationBest = getStatistics(population);
-           // if (generationBest.fitness>globalBest.fitness){
-           //     globalBest = generationBest;
-           // }
+           generationBest = getStatistics(population);
+            if (generationBest.fitness>globalBest.fitness){
+               globalBest = generationBest;
+            }
 
         }
-       // printSchedule(globalBest);
+        System.out.println("=============================================Best Schedule=======================================================");
+        printSchedule(globalBest);
         
       
     }
