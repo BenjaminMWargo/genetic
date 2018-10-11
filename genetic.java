@@ -295,6 +295,7 @@ public class genetic{
         timeFrame tempTime;
         List<course> tempCourse = new ArrayList<course>();
         List<course> tempCourse2 = new ArrayList<course>();
+        List<course> tempCourse3 = new ArrayList<course>();
         schedule a,b,a2,b2;
         int x;
         while (s.size()>0) {
@@ -302,35 +303,36 @@ public class genetic{
                 //edge case of odd population
                 nextGen.add(s.remove(0));
                 break;
-            }    
+            }   
+            tempCourse.clear();
+            tempCourse2.clear();
+            tempCourse3.clear(); 
             a = s.remove(0);
             b = s.remove(0);
             a2 = a.deepCopy();
             b2 = b.deepCopy();
             //Roll for crossover
-            if (rand.nextInt(100)<(rate*100)){
-                System.out.println("Crossover");
-                printSchedule(a);
-                printSchedule(b);
+            if (rand.nextInt(100)<(rate*100)){            
                 x = rand.nextInt(27);
-                System.out.println("X:" + x);
                 for (course i:a.courseList){
                     //Take the top half of the course list up to x
                     if (i.CRN <= x){
                         //if CRN is in range, search for it and put it in list1
-                        for (int j = 0;j<27;j++){
+                        y:for (int j = i.CRN;j<27;j++){
                             if (a.courseList.get(j).CRN == i.CRN){
                                 tempCourse.add(a.courseList.get(j).deepCopy());
-                                break;
+                               // a2.courseList.remove(j);
+                                break y;
                             }
                         }
                     }
-                    if (i.CRN > x){
+                    else {
                         //Put the rest in list2
-                        for (int j = 0;j<27;j++){
+                        y:for (int j = i.CRN;j<27;j++){
                             if (a.courseList.get(j).CRN == i.CRN){
-                                tempCourse2.add(a.courseList.get(j).deepCopy());
-                                break;
+                                tempCourse3.add(a.courseList.get(j).deepCopy());
+                               // a2.courseList.remove(j);
+                                break y;
                             }
                         }
                     }
@@ -339,33 +341,38 @@ public class genetic{
                     //Take the top half of the course list up to x
                     if (i.CRN <= x){
                         //if CRN is in range, search for it and put it in list1
-                        for (int j = 0;j<27;j++){
-                            if (a.courseList.get(j).CRN == i.CRN){
-                                tempCourse.add(b.courseList.get(j).deepCopy());
-                                break;
+                        y:for (int j = i.CRN;j<27;j++){
+                            if (b.courseList.get(j).CRN == i.CRN){
+                                tempCourse2.add(b.courseList.get(j).deepCopy());
+                               // b2.courseList.remove(j);
+                                break y;
                             }
                         }
                     }
                     if (i.CRN > x){
                         //if CRN is in range, search for it and remove it
-                        for (int j = 0;j<27;j++){
-                            if (a.courseList.get(j).CRN == i.CRN){
+                        y: for (int j = i.CRN;j<27;j++){
+                            if (b.courseList.get(j).CRN == i.CRN){
                                 tempCourse.add(b.courseList.get(j).deepCopy());
-                                break;
+                              //  b2.courseList.remove(j);
+                                break y;
                             }
                         }
                     }
+
+                   
+                }
+                for(course c:tempCourse3){
+                    tempCourse2.add(c);
                 }
                 a.courseList.clear();
                 b.courseList.clear();
                 a.courseList = tempCourse;
                 b.courseList = tempCourse2;
-                System.out.println("After Crossover");
-                printSchedule(a);
-                printSchedule(b);
+                nextGen.add(a);
+                nextGen.add(b);
             }
-            nextGen.add(a);
-            nextGen.add(b);
+            
             
 
         }
