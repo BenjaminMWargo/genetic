@@ -177,13 +177,38 @@ public class genetic{
          
        return data;
     }
-    public static schedule makeSchedule(){
+    public static List<room> getRoomList(){
         String ROOMFILE = "rooms.txt";
-        String COURSEFILE = "courses.txt";
-        String PERIODFILE = "periods.txt";
-        List<String[]> courseMaster = readFile(COURSEFILE);
         List<String[]> roomMaster = readFile(ROOMFILE);
+        List<room> roomList = new ArrayList<room>();
+        boolean x;
+        for(String[] i :roomMaster){
+            //Load all rooms into roomlist
+            if (Integer.parseInt(i[2])==1){
+                x = true;
+            }else {x= false;}
+            roomList.add(new room(i[0],Integer.parseInt(i[1]),x));
+        }
+        return roomList;
+    }
+    public static List<timeFrame> getTimeList(){
+        String PERIODFILE = "periods.txt";
         List<String[]> periodMaster = readFile(PERIODFILE);
+        List<timeFrame> periodList = new ArrayList<timeFrame>();
+        boolean x;
+        for(String[] i :periodMaster){
+            //Load all rooms into roomlist
+            periodList.add(new timeFrame(i[1],Integer.parseInt(i[2]),Integer.parseInt(i[0])));
+        }
+        return periodList;
+    }
+    public static schedule makeSchedule(){
+        
+        String COURSEFILE = "courses.txt";
+        
+        List<String[]> courseMaster = readFile(COURSEFILE);
+        
+        
         List<room> roomList = new ArrayList<room>();
         List<timeFrame> periodList = new ArrayList<timeFrame>();
         boolean x;
@@ -196,17 +221,8 @@ public class genetic{
             }else {x= false;}
             s.courseList.add(new course(Integer.parseInt(i[0]),i[1],i[2],Integer.parseInt(i[3]),x));
         }
-        for(String[] i :roomMaster){
-            //Load all rooms into roomlist
-            if (Integer.parseInt(i[2])==1){
-                x = true;
-            }else {x= false;}
-            roomList.add(new room(i[0],Integer.parseInt(i[1]),x));
-        }
-        for(String[] i :periodMaster){
-            //Load all rooms into roomlist
-            periodList.add(new timeFrame(i[1],Integer.parseInt(i[2]),Integer.parseInt(i[0])));
-        }
+        roomList = getRoomList();
+        periodList = getTimeList();
         for(course c:s.courseList){
             //Give each course a random room and period
             Collections.shuffle(periodList);
