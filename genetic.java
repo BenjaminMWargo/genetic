@@ -252,7 +252,7 @@ public class genetic{
         for (schedule i:s){
             count++;
             total = total + i.fitness;
-            System.out.println("Chromasome:" + count + "  Fitness:" + i.fitness);
+            System.out.println("Chromosome:" + count + "  Fitness:" + i.fitness);
             if (i.fitness > max){
                 max = i.fitness;
                 best = i.deepCopy();
@@ -299,14 +299,17 @@ public class genetic{
         while (s.size()>0) {
             if (s.size() == 1){
                 //edge case of odd population
-                nextGen.add(s.remove(0));
+                nextGen.add(s.get(0));
+                s.remove(0);
                 break;
             }   
             tempCourse.clear();
             tempCourse2.clear();
             tempCourse3.clear(); 
-            a = s.remove(0);
-            b = s.remove(0);
+            a = s.get(0);
+            s.remove(0);
+            b = s.get(0);
+            s.remove(0);
             
             //Roll for crossover
             if (rand.nextInt(100)<(rate*100)){            
