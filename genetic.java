@@ -431,7 +431,7 @@ public class genetic{
             //Added size schedules to the population
             population.add(makeSchedule()); 
         }
-        globalBest = getStatistics(population);
+        globalBest = getStatistics(population).deepCopy();
        // printPopulation(population);
        //Loop max times
        
@@ -452,9 +452,10 @@ public class genetic{
                printPopulation(population);
            }
             if (generationBest.fitness>globalBest.fitness){
-               globalBest = generationBest;
+               globalBest = generationBest.deepCopy();
             }
-
+            population.clear();
+            population = nextGen;
         }
         System.out.println("=============================================Best Schedule=======================================================");
         printSchedule(globalBest);
