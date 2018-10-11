@@ -123,7 +123,7 @@ public class genetic{
                     tooSmall = true;
                 }
                 //===Class needs media, room doesn't have it ===
-                if ((i.courseMedia = true)&(i.room.roomMedia == false)){
+                if ((i.courseMedia == true)&(i.room.roomMedia == false)){
                     mediaReq = true;
                 }
                 //Calculate fitness
@@ -239,9 +239,6 @@ public class genetic{
         }
         printPopulation(population);
         
-       // test.courseList.add(new course(0,"Math","Teacher Guy",20,true));
-      //  test.courseList.get(0).timeFrame = new timeFrame("MFW", 9, 0);
-     //   test.courseList.get(0).room = new room("Room 3", 30, false);
-      //  printSchedual(test);
+      
     }
 }
