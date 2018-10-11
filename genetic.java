@@ -64,17 +64,17 @@ public class genetic{
             }else{ x.room = null;}
             return x;
         }
-    }public static class schedual{
-        //Each schedual is a list of courses
+    }public static class schedule{
+        //Each schedule is a list of courses
         public List<course> courseList;
         public int fitness;
-        public schedual(){
+        public schedule(){
             this.fitness = 0;
             courseList = new ArrayList<course>();
             
         }
-        public schedual deepCopy(){
-            schedual x = new schedual();
+        public schedule deepCopy(){
+            schedule x = new schedule();
             x.fitness = this.fitness;
             for (course c: courseList ) {
                 x.courseList.add(c.deepCopy());
@@ -142,10 +142,10 @@ public class genetic{
             }
        }
     }
-    public static void printSchedual(schedual s){
-        System.out.println("CRN|Course|Professor|Size|Needs media|Room Name|Room Size|Room media?|Period |Days |Time ");
+    public static void printSchedule(schedule s){
+        System.out.printf("%3s | %-8s | %-12s | %-4s | %-11s | %-10s | %-9s | %-11s | %-6s | %-4s | %4s%n", "CRN", "Course", "Professor", "Size", "Needs media", "Room Name", "Room Size", "Room media?", "Period", "Days", "Time");
         for (course c :s.courseList){
-            System.out.printf("%2d | %-8s | %-12s | %-2d | %-5b | %-10s | %-3d | %-5b | %-2d | %-3s | %3d%n", c.CRN, c.courseName, c.prof, c.courseSize, c.courseMedia, c.room.roomName, c.room.roomSize, c.room.roomMedia, c.timeFrame.period, c.timeFrame.days, c.timeFrame.time);
+            System.out.printf("%3d | %-8s | %-12s | %-4d | %-11b | %-10s | %-9d | %-11b | %-6d | %-4s | %4d%n", c.CRN, c.courseName, c.prof, c.courseSize, c.courseMedia, c.room.roomName, c.room.roomSize, c.room.roomMedia, c.timeFrame.period, c.timeFrame.days, c.timeFrame.time);
         }
         System.out.println("Fitness:" + s.fitness);
     }
@@ -171,7 +171,7 @@ public class genetic{
        
        return data;
     }
-    public static schedual makeSchedual(){
+    public static schedule makeSchedule(){
         String ROOMFILE = "rooms.txt";
         String COURSEFILE = "courses.txt";
         String PERIODFILE = "periods.txt";
@@ -181,7 +181,7 @@ public class genetic{
         List<room> roomList = new ArrayList<room>();
         List<timeFrame> periodList = new ArrayList<timeFrame>();
         boolean x;
-        schedual s = new schedual();
+        schedule s = new schedule();
        
         for(String[] i :courseMaster){
               //Load all courses into s.courseList     
@@ -211,12 +211,12 @@ public class genetic{
         s.findFitness();
         return s;
     }
-    public static void printPopulation(List<schedual> s){
+    public static void printPopulation(List<schedule> s){
         //Prints the entire population
         int x = 1;
-        for (schedual i:s){
-            System.out.println("Schedual:" + x);
-            printSchedual(i);
+        for (schedule i:s){
+            System.out.println("Schedule:" + x);
+            printSchedule(i);
             x++;
         }
     }
@@ -230,12 +230,12 @@ public class genetic{
         double crossRate = Double.parseDouble(args[2]);
         double mutRate = Double.parseDouble(args[3]);
 
-        // population should be a list of scheduals
-        List<schedual> population = new ArrayList<schedual>();
+        // population should be a list of schedules
+        List<schedule> population = new ArrayList<schedule>();
 
         for (int i =0;i<size;i++){
-            //Added size scheduals to the population
-            population.add(makeSchedual()); 
+            //Added size schedules to the population
+            population.add(makeSchedule()); 
         }
         printPopulation(population);
         
