@@ -349,7 +349,7 @@ public class genetic{
                             }
                         }
                     }
-                    if (i.CRN > x){
+                    else{
                         //if CRN is in range, search for it and remove it
                         y: for (int j = i.CRN;j<27;j++){
                             if (b.courseList.get(j).CRN == i.CRN){
@@ -372,6 +372,7 @@ public class genetic{
                 nextGen.add(a);
                 nextGen.add(b);
             }else{
+                //Add if no crossover
                 nextGen.add(a);
                 nextGen.add(b);
             }
@@ -449,18 +450,21 @@ public class genetic{
         for (int i=1;i<=max;i++){
             //Selections - 
             nextGen = elitistSelection(nextGen);
-           // getStatistics(nextGen);
+            System.out.println("====after select=====");
+            getStatistics(nextGen);
             //Crossover
             nextGen = crossover(nextGen,crossRate);
-           // getStatistics(nextGen);
+            System.out.println("====after cross=====");
+            getStatistics(nextGen);
             //Mutation
-            nextGen = mutation(nextGen, mutRate);
-           
+            //nextGen = mutation(nextGen, mutRate);
+            //System.out.println("====after mut=====");
+            getStatistics(nextGen);
             //Evaluate
             Collections.sort(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
-           if (i%100==0){
+           if (i%1==0){
                printPopulation(nextGen);
            }
             if (generationBest.fitness>globalBest.fitness){
