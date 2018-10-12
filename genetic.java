@@ -268,19 +268,31 @@ public class genetic{
     public static List<schedule> tournamentSelect(List<schedule> s){
         List<schedule> nextGen = new ArrayList<schedule>();
         Random rand = new Random();
-        boolean checkSame = false;
-        schedule a, b;
+        schedule a, b, c;
         a = s.get(rand.nextInt(s.size()));
         b = s.get(rand.nextInt(s.size()));
+        c = s.get(rand.nextInt(s.size()));
         for(int x=0; x < s.size(); x++){
+                // starts it off
                 if(a.fitness > b.fitness){
+                    if(a.fitness == c.fitness){
+                        a = s.get(rand.nextInt());
+                        x = x-1;
+                    }
+                    else{
+                        nextGen.add(a.deepCopy());
+                        c = a;
+                        a = s.get(rand.nextInt(s.size()));
+                    }
+                }
+                // checks if the next 
+                else if(a.fitness < b.fitness){
                     nextGen.add(a.deepCopy());
                     b = a;
                     a = s.get(rand.nextInt(s.size()));
+                    
                 }
-                else if(a.fitness < b.fitness){
-                    nextGen.add(b.deepCopy());
-                }
+                // if both fitnesses are the same, reroll the same iteration with a different value
                 else if(a.fitness == b.fitness){
                     a = s.get(rand.nextInt(s.size()));
                     x = x-1;
