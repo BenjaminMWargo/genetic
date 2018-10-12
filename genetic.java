@@ -265,6 +265,23 @@ public class genetic{
         System.out.println("Population Average:" + average + "  Min:" + min + " Max:" + max);
         return best;
     }
+    public static List<schedule> tournamentSelect(List<schedule> s){
+        List<schedule> nextGen = new ArrayList<schedule>();
+        Random rand = new Random();
+        schedule a, b;
+        for(int x=s.size()-1; x > 0; x--){
+            a = s.get(rand.nextInt((26-0)+1));
+            b = s.get(rand.nextInt(27));
+            if(a.fitness > b.fitness){
+                nextGen.add(a.deepCopy());
+            }
+            else{
+                nextGen.add(b.deepCopy());
+            }
+        }
+        return nextGen;
+    }
+
     public static List<schedule> elitistSelection(List<schedule> s){
         //Select from the top 50% randomly
         List<schedule> nextGen = new ArrayList<schedule>();
@@ -313,7 +330,7 @@ public class genetic{
             
             //Roll for crossover
             if (rand.nextInt(100)<(rate*100)){            
-                x = rand.nextInt(27);
+                x = rand.nextInt(26);
                 for (course i:a.courseList){
                     //Take the top half of the course list up to x
                     if (i.CRN <= x){
@@ -449,16 +466,17 @@ public class genetic{
        
         for (int i=1;i<=max;i++){
             //Selections - 
-            nextGen = elitistSelection(nextGen);
+            //nextGen = elitistSelection(nextGen);
+            nextGen = tournamentSelect(nextGen);
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
-            nextGen = crossover(nextGen,crossRate);
-            System.out.println("====after cross=====");
-            getStatistics(nextGen);
+            // nextGen = crossover(nextGen,crossRate);
+            // System.out.println("====after cross=====");
+            // getStatistics(nextGen);
             //Mutation
-            //nextGen = mutation(nextGen, mutRate);
-            //System.out.println("====after mut=====");
+            nextGen = mutation(nextGen, mutRate);
+            System.out.println("====after mut=====");
             getStatistics(nextGen);
             //Evaluate
             Collections.sort(nextGen);
