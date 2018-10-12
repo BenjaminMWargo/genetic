@@ -268,17 +268,25 @@ public class genetic{
     public static List<schedule> tournamentSelect(List<schedule> s){
         List<schedule> nextGen = new ArrayList<schedule>();
         Random rand = new Random();
+        boolean checkSame = false;
         schedule a, b;
-        for(int x=s.size(); x > 0; x--){
-            a = s.get(rand.nextInt(s.size()));
-            b = s.get(rand.nextInt(s.size()));
-            if(a.fitness > b.fitness){
-                nextGen.add(a.deepCopy());
-            }
-            else{
-                nextGen.add(b.deepCopy());
-            }
+        a = s.get(rand.nextInt(s.size()));
+        b = s.get(rand.nextInt(s.size()));
+        for(int x=0; x < s.size(); x++){
+                if(a.fitness > b.fitness){
+                    nextGen.add(a.deepCopy());
+                    b = a;
+                    a = s.get(rand.nextInt(s.size()));
+                }
+                else if(a.fitness < b.fitness){
+                    nextGen.add(b.deepCopy());
+                }
+                else if(a.fitness == b.fitness){
+                    a = s.get(rand.nextInt(s.size()));
+                    x = x-1;
+                }
         }
+        updateFitness(nextGen);
         return nextGen;
     }
 
@@ -475,9 +483,9 @@ public class genetic{
             // System.out.println("====after cross=====");
             // getStatistics(nextGen);
             //Mutation
-            nextGen = mutation(nextGen, mutRate);
-            System.out.println("====after mut=====");
-            getStatistics(nextGen);
+            // nextGen = mutation(nextGen, mutRate);
+            // System.out.println("====after mut=====");
+            // getStatistics(nextGen);
             //Evaluate
             Collections.sort(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
