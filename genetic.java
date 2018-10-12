@@ -269,9 +269,9 @@ public class genetic{
         List<schedule> nextGen = new ArrayList<schedule>();
         Random rand = new Random();
         schedule a, b;
-        for(int x=s.size()-1; x > 0; x--){
-            a = s.get(rand.nextInt((26-0)+1));
-            b = s.get(rand.nextInt(27));
+        for(int x=s.size(); x > 0; x--){
+            a = s.get(rand.nextInt(s.size()));
+            b = s.get(rand.nextInt(s.size()));
             if(a.fitness > b.fitness){
                 nextGen.add(a.deepCopy());
             }
