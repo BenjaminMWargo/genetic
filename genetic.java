@@ -497,8 +497,8 @@ public class genetic{
        
         for (int i=1;i<=max;i++){
             //Selections - 
-            nextGen = elitistSelection(nextGen);
-            //nextGen = tournamentSelect(nextGen);
+            //nextGen = elitistSelection(nextGen);
+            nextGen = tournamentSelect(nextGen);
             //System.out.println("====after select=====");
             //getStatistics(nextGen);
             //Crossover
