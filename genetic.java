@@ -144,7 +144,7 @@ public class genetic{
                     this.fitness = this.fitness - 50;
                 }else {this.fitness = this.fitness +20;}
             }
-            System.out.println(this.fitness);
+            //System.out.println(this.fitness);
             
        }
        public int compareTo(schedule s){
@@ -336,10 +336,9 @@ public class genetic{
             tempCourse3.clear(); 
             a = s.get(0).deepCopy();
             //a.fitness = s.get(0).fitness;
-            s.remove(0);
-            b = s.get(0).deepCopy();
+            b = s.get(1).deepCopy();
             //b.fitness = s.get(0).fitness;
-            s.remove(0);
+            
             //a.findFitness();
            // b.findFitness();
             //Roll for crossover
@@ -402,21 +401,25 @@ public class genetic{
                 b.courseList = tempCourse2;
                 nextGen.add(a);
                 nextGen.add(b);
+                s.remove(0);
+                s.remove(0);
             }else{
                 //Add if no crossover
                 for (course i :a.courseList){
-                    tempCourse.add(a.courseList.deepCopy());
+                    tempCourse.add(i.deepCopy());
                 }
                 for (course i :b.courseList){
-                    tempCourse2.add(b.courseList.deepCopy());
+                    tempCourse2.add(i.deepCopy());
                 }
                 
                 a.courseList.clear();
                 b.courseList.clear();
                 a.courseList = tempCourse;
                 b.courseList = tempCourse2;
-                nextGen.add(a);
-                nextGen.add(b);
+                nextGen.add(a.deepCopy());
+                nextGen.add(b.deepCopy());
+                s.remove(0);
+                s.remove(0);
                 
             }
             
@@ -476,7 +479,7 @@ public class genetic{
         // population should be a list of schedules
         List<schedule> population = new ArrayList<schedule>();
         List<schedule> nextGen = new ArrayList<schedule>();
-
+       
         for (int i =0;i<size;i++){
             //Added size schedules to the population
             population.add(makeSchedule()); 
@@ -492,12 +495,14 @@ public class genetic{
        
         for (int i=1;i<=max;i++){
             //Selections - 
-           // nextGen = elitistSelection(nextGen);
+            nextGen = elitistSelection(nextGen);
             //nextGen = tournamentSelect(nextGen);
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
+           
             nextGen = crossover(nextGen,crossRate);
+            
              System.out.println("====after cross=====");
              getStatistics(nextGen);
             //Mutation
@@ -508,7 +513,7 @@ public class genetic{
             Collections.sort(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
-           if (i%10==0){
+           if (i%100==0){
                printPopulation(nextGen);
            }
             if (generationBest.fitness>globalBest.fitness){
