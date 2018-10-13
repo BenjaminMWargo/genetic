@@ -103,6 +103,8 @@ public class genetic{
                 profBusy = false;
                 tooSmall = false;
                 mediaReq = false;
+                //Reset Fitness 
+                this.fitness = 0;
                 for(course j : courseList){
                     //Skip over itself
                     if (i.CRN == j.CRN){
@@ -293,8 +295,8 @@ public class genetic{
         //Select from the top 50% randomly
         List<schedule> nextGen = new ArrayList<schedule>();
         int max = s.size();
-        
-        int range = (int)(s.size()*.5);
+        double SELECTIONRANGE = .5;
+        int range = (int)(s.size()*SELECTIONRANGE);
         Random rand = new Random();
         //Sort by highest fitness
         Collections.sort(s);
@@ -473,12 +475,12 @@ public class genetic{
        
         for (int i=1;i<=max;i++){
             //Selections - 
-            nextGen = elitistSelection(nextGen);
-            //nextGen = tournamentSelect(nextGen);
+           // nextGen = elitistSelection(nextGen);
+            nextGen = tournamentSelect(nextGen);
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
-            // nextGen = crossover(nextGen,crossRate);
+            //nextGen = crossover(nextGen,crossRate);
             // System.out.println("====after cross=====");
             // getStatistics(nextGen);
             //Mutation
