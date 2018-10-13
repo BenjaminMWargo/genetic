@@ -96,6 +96,7 @@ public class genetic{
            boolean profBusy = false;
            boolean tooSmall = false;
            boolean mediaReq = false;
+           this.fitness = 0;
             //For each course in the list
             for(course i : courseList){
                 //Reset  rule flags
@@ -104,7 +105,7 @@ public class genetic{
                 tooSmall = false;
                 mediaReq = false;
                 //Reset Fitness 
-                this.fitness = 0;
+                
                 for(course j : courseList){
                     //Skip over itself
                     if (i.CRN == j.CRN){
@@ -480,11 +481,11 @@ public class genetic{
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
-            //nextGen = crossover(nextGen,crossRate);
+            nextGen = crossover(nextGen,crossRate);
             // System.out.println("====after cross=====");
             // getStatistics(nextGen);
             //Mutation
-            // nextGen = mutation(nextGen, mutRate);
+            nextGen = mutation(nextGen, mutRate);
             // System.out.println("====after mut=====");
             // getStatistics(nextGen);
             //Evaluate
