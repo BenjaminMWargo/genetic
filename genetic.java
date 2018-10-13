@@ -104,8 +104,8 @@ public class genetic{
                 profBusy = false;
                 tooSmall = false;
                 mediaReq = false;
-                //Reset Fitness 
-                
+               
+                //See if course i conflicts with any other course, if so, add flag 
                 for(course j : courseList){
                     //Skip over itself
                     if (i.CRN == j.CRN){
@@ -113,12 +113,12 @@ public class genetic{
                     }
                    //==== teacher is teaching twice =====
                     //Teacher,Day,and Time are the same
-                    if ((i.prof == j.prof) & (i.timeFrame.days == j.timeFrame.days) & (i.timeFrame.time==j.timeFrame.time)){
+                    if ((i.prof.equals(j.prof)) & (i.timeFrame.days.equals(j.timeFrame.days)) & (i.timeFrame.time==j.timeFrame.time)){
                         profBusy = true;
                     }
                    //====Room is in use ======
                    //==roomName,time and day are the same
-                   if ((i.room.roomName == j.room.roomName) & (i.timeFrame.days == j.timeFrame.days) & (i.timeFrame.time==j.timeFrame.time)){
+                   if ((i.room.roomName.equals(j.room.roomName)) & (i.timeFrame.days.equals( j.timeFrame.days)) & (i.timeFrame.time==j.timeFrame.time)){
                         roomTaken = true;
                    }
                 }
@@ -276,7 +276,7 @@ public class genetic{
         a = s.get(rand.nextInt(s.size()));
         b = s.get(rand.nextInt(s.size()));
        // c = s.get(rand.nextInt(s.size()));
-        for(int x=0; x <= s.size(); x++){
+        for(int x=0; x < s.size(); x++){
                 // starts it off
                 if(a.fitness > b.fitness){
                     nextGen.add(a.deepCopy());                    
@@ -479,6 +479,8 @@ public class genetic{
         // population should be a list of schedules
         List<schedule> population = new ArrayList<schedule>();
         List<schedule> nextGen = new ArrayList<schedule>();
+        int bestGeneration = 0;
+
        
         for (int i =0;i<size;i++){
             //Added size schedules to the population
@@ -497,14 +499,14 @@ public class genetic{
             //Selections - 
             nextGen = elitistSelection(nextGen);
             //nextGen = tournamentSelect(nextGen);
-            System.out.println("====after select=====");
-            getStatistics(nextGen);
+            //System.out.println("====after select=====");
+            //getStatistics(nextGen);
             //Crossover
            
             nextGen = crossover(nextGen,crossRate);
             
-             System.out.println("====after cross=====");
-             getStatistics(nextGen);
+            //System.out.println("====after cross=====");
+            // getStatistics(nextGen);
             //Mutation
             nextGen = mutation(nextGen, mutRate);
             // System.out.println("====after mut=====");
@@ -518,11 +520,12 @@ public class genetic{
            }
             if (generationBest.fitness>globalBest.fitness){
                globalBest = generationBest.deepCopy();
+               bestGeneration = i;
             }
            // population.clear();
            
         }
-        System.out.println("=============================================Best Schedule=======================================================");
+        System.out.println("=====================================Best Schedule found in Gen:" + bestGeneration + "=======================================================");
         printSchedule(globalBest);
         
       
