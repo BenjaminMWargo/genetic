@@ -268,36 +268,23 @@ public class genetic{
     public static List<schedule> tournamentSelect(List<schedule> s){
         List<schedule> nextGen = new ArrayList<schedule>();
         Random rand = new Random();
-        schedule a, b, c;
+        schedule a, b;
         a = s.get(rand.nextInt(s.size()));
         b = s.get(rand.nextInt(s.size()));
-        c = s.get(rand.nextInt(s.size()));
-        for(int x=0; x < s.size(); x++){
+       // c = s.get(rand.nextInt(s.size()));
+        for(int x=0; x <= s.size(); x++){
                 // starts it off
                 if(a.fitness > b.fitness){
-                    if(a.fitness == c.fitness){
-                        a = s.get(rand.nextInt());
-                        x = x-1;
-                    }
-                    else{
-                        nextGen.add(a.deepCopy());
-                        c = a;
-                        a = s.get(rand.nextInt(s.size()));
-                    }
+                    nextGen.add(a.deepCopy());                    
                 }
                 // checks if the next 
-                else if(a.fitness < b.fitness){
-                    nextGen.add(a.deepCopy());
-                    b = a;
-                    a = s.get(rand.nextInt(s.size()));
-                    
+                else if(a.fitness <= b.fitness){
+                    nextGen.add(b.deepCopy());                   
                 }
-                // if both fitnesses are the same, reroll the same iteration with a different value
-                else if(a.fitness == b.fitness){
-                    a = s.get(rand.nextInt(s.size()));
-                    x = x-1;
-                }
+            a = s.get(rand.nextInt(s.size()));
+            b = s.get(rand.nextInt(s.size()));
         }
+
         updateFitness(nextGen);
         return nextGen;
     }
@@ -486,8 +473,8 @@ public class genetic{
        
         for (int i=1;i<=max;i++){
             //Selections - 
-            //nextGen = elitistSelection(nextGen);
-            nextGen = tournamentSelect(nextGen);
+            nextGen = elitistSelection(nextGen);
+            //nextGen = tournamentSelect(nextGen);
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
@@ -502,7 +489,7 @@ public class genetic{
             Collections.sort(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
-           if (i%1==0){
+           if (i%10==0){
                printPopulation(nextGen);
            }
             if (generationBest.fitness>globalBest.fitness){
