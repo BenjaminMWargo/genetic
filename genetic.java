@@ -513,6 +513,7 @@ public class genetic{
             // getStatistics(nextGen);
             //Evaluate
             Collections.sort(nextGen);
+            updateFitness(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
            if (i%100==0){
