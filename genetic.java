@@ -144,6 +144,7 @@ public class genetic{
                     this.fitness = this.fitness - 50;
                 }else {this.fitness = this.fitness +20;}
             }
+            System.out.println(this.fitness);
             
        }
        public int compareTo(schedule s){
@@ -321,23 +322,26 @@ public class genetic{
         List<course> tempCourse = new ArrayList<course>();
         List<course> tempCourse2 = new ArrayList<course>();
         List<course> tempCourse3 = new ArrayList<course>();
-        schedule a,b;
+        schedule a,b = new schedule();
         int x;
         while (s.size()>0) {
             if (s.size() == 1){
                 //edge case of odd population
-                nextGen.add(s.get(0));
+                nextGen.add(s.get(0).deepCopy());
                 s.remove(0);
                 break;
             }   
             tempCourse.clear();
             tempCourse2.clear();
             tempCourse3.clear(); 
-            a = s.get(0);
+            a = s.get(0).deepCopy();
+            //a.fitness = s.get(0).fitness;
             s.remove(0);
-            b = s.get(0);
+            b = s.get(0).deepCopy();
+            //b.fitness = s.get(0).fitness;
             s.remove(0);
-            
+            //a.findFitness();
+           // b.findFitness();
             //Roll for crossover
             if (rand.nextInt(100)<(rate*100)){            
                 x = rand.nextInt(26);
@@ -400,8 +404,20 @@ public class genetic{
                 nextGen.add(b);
             }else{
                 //Add if no crossover
+                for (course i :a.courseList){
+                    tempCourse.add(a.courseList.deepCopy());
+                }
+                for (course i :b.courseList){
+                    tempCourse2.add(b.courseList.deepCopy());
+                }
+                
+                a.courseList.clear();
+                b.courseList.clear();
+                a.courseList = tempCourse;
+                b.courseList = tempCourse2;
                 nextGen.add(a);
                 nextGen.add(b);
+                
             }
             
             
@@ -477,13 +493,13 @@ public class genetic{
         for (int i=1;i<=max;i++){
             //Selections - 
            // nextGen = elitistSelection(nextGen);
-            nextGen = tournamentSelect(nextGen);
+            //nextGen = tournamentSelect(nextGen);
             System.out.println("====after select=====");
             getStatistics(nextGen);
             //Crossover
             nextGen = crossover(nextGen,crossRate);
-            // System.out.println("====after cross=====");
-            // getStatistics(nextGen);
+             System.out.println("====after cross=====");
+             getStatistics(nextGen);
             //Mutation
             nextGen = mutation(nextGen, mutRate);
             // System.out.println("====after mut=====");
