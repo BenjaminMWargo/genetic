@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileWriter;
 
 public class genetic{
     
@@ -143,6 +144,10 @@ public class genetic{
                 if (mediaReq){
                     this.fitness = this.fitness - 50;
                 }else {this.fitness = this.fitness +20;}
+                //Broken fitness work around.
+                if(this.courseList == null){
+                    this.fitness = this.fitness - 1000000;
+                }
             }
             //System.out.println(this.fitness);
             
@@ -461,6 +466,33 @@ public class genetic{
            
         }
         return s;
+    }public static void csvWrite(List<schedule> s,int gen,FileWriter fw){
+        double total = 0;
+        double average;
+        int count = 0;
+        double max = -100000000;
+        double min = 1000000;
+        for (schedule i:s){
+            count++;
+            total = total + i.fitness;
+            //System.out.println("Chromosome:" + count + "  Fitness:" + i.fitness);
+            if (i.fitness > max){
+                max = i.fitness;
+            
+            }
+            if (i.fitness < min){
+                min = i.fitness;
+            }
+        }
+        average = total/count;
+        try{
+        fw.append(gen + "," +min + "," +average+ "," +max + "\n");}  
+        catch (Exception e) {
+            System.out.println("Error in CsvFileWriter !!!");
+        }
+
+        //System.out.println("Population Average:" + average + "  Min:" + min + " Max:" + max);
+        
     }
     public static void main(String args[]){
         
@@ -480,6 +512,12 @@ public class genetic{
         List<schedule> population = new ArrayList<schedule>();
         List<schedule> nextGen = new ArrayList<schedule>();
         int bestGeneration = 0;
+
+        //csv generation
+        String fn = "n" +size +"m"+max+"cR" + (int)(crossRate*1000) + "mR" + (int)(mutRate*1000) + ".csv";
+        try{
+        FileWriter fw = new FileWriter(fn);
+       
 
        
         for (int i =0;i<size;i++){
@@ -516,6 +554,8 @@ public class genetic{
             updateFitness(nextGen);
             System.out.println("===============================Generation " + i + "===============================");
            generationBest = getStatistics(nextGen);
+           csvWrite(nextGen, i, fw);
+        
            if (i%100==0){
                printPopulation(nextGen);
            }
@@ -526,9 +566,15 @@ public class genetic{
            // population.clear();
            
         }
+        
+            fw.close();
+        
+       
         System.out.println("=====================================Best Schedule found in Gen:" + bestGeneration + "=======================================================");
         printSchedule(globalBest);
-        
+    }catch (Exception e) {
+            System.out.println("Error in CsvFileWriter !!!");
+        }
       
     }
 }
