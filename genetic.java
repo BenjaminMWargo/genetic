@@ -517,7 +517,7 @@ public class genetic{
         String fn = "n" +size +"m"+max+"cR" + (int)(crossRate*1000) + "mR" + (int)(mutRate*1000) + ".csv";
         try{
         FileWriter fw = new FileWriter(fn);
-       
+       fw.append("gen,min,avg,max\n");
 
        
         for (int i =0;i<size;i++){
